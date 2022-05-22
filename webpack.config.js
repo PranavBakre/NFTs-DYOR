@@ -13,6 +13,10 @@ module.exports = function (env, { analyze }) {
             path: path.resolve(__dirname, "./dist"),
             filename: 'bundle.js',
         },
+        resolve: {
+            extensions: ['.css', '.js'],
+            modules: [path.resolve(__dirname, 'src'), path.resolve(__dirname, 'dev-app'), 'node_modules']
+          },
         module: {
             rules: [
                 { test: /\.(png|svg|jpg|jpeg|gif)$/i, type: 'asset' },
@@ -33,7 +37,7 @@ module.exports = function (env, { analyze }) {
             ]
         },
         plugins: [
-            new HtmlWebpackPlugin({ template: 'index.html', scriptLoading:"module" }),
+            new HtmlWebpackPlugin({ template: 'index.html', scriptLoading: "module" }),
             new CopyWebpackPlugin({
                 patterns: [{ from: "public/" }],
             }),
@@ -41,6 +45,16 @@ module.exports = function (env, { analyze }) {
                 path: `./.env${production ? '' : '.' + environment}`,
             }),
             analyze && new BundleAnalyzerPlugin()
-        ].filter(p => p)
+        ].filter(p => p),
+        devtool: 'source-map',
+        devServer: {
+            historyApiFallback: true,
+            open: !process.env.CI,
+            port: 3000,
+            host: "0.0.0.0",
+            client: {
+                overlay: false
+            }
+        },
     }
 }
