@@ -4,7 +4,7 @@ import { Scene, PerspectiveCamera, WebGLRenderer } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 
-export const renderer = new WebGLRenderer();
+export const renderer = new WebGLRenderer({antialias: true});
 renderer.setSize( window.innerWidth, window.innerHeight );
 
 export const scene = new Scene();
