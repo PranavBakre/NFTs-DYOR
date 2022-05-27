@@ -1,4 +1,5 @@
 import {Shape} from "three"
+
 export function getRoundedRectangle(length, breadth, radius, x = 0, y = 0 ) {
     let shape = new Shape();
     shape.moveTo( x, y + radius );
@@ -13,4 +14,11 @@ export function getRoundedRectangle(length, breadth, radius, x = 0, y = 0 ) {
 
     return shape
 
+}
+
+export function getFrameWithHole(width, height, radius,borderSize, x, y ) {
+    let base = getRoundedRectangle(width, height, radius, x, y);
+    let hole = getRoundedRectangle(width - 2 * borderSize, height - 2 * borderSize, radius, x + borderSize, y + borderSize)
+    base.holes.push(hole);
+    return base;
 }
