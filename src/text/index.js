@@ -1,5 +1,5 @@
 import {CanvasTexture} from "three"
-export function convertTextToTexture(text, style) {
+export function convertTextToTexture(text, style, domNode) {
     const div = document.createElement("div");
     console.log(style)
     div.innerHTML = text
@@ -12,7 +12,7 @@ export function convertTextToTexture(text, style) {
     div.style.fontSize = style.fontSize ?? "21px"
     div.style.fontFamily = style.fontFamily ?? "Gilroy-Regular"
     
-    document.getElementById("root").append(div)
+    domNode.append(div)
     const canvas = document.createElement('canvas');
     
     canvas.width = div.offsetWidth; canvas.height = div.offsetHeight;

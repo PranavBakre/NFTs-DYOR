@@ -4,12 +4,12 @@ import { Scene, PerspectiveCamera, WebGLRenderer, AmbientLight } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { RectAreaLightUniformsLib } from 'three/examples/jsm/lights/RectAreaLightUniformsLib.js';
 import { getDirectionLight } from "lights";
-
+import "ccapture.js/build/CCapture.min.js"
 export const renderer = new WebGLRenderer({antialias: true});
-renderer.setSize( window.innerWidth, window.innerHeight );
+renderer.setSize( 1920,1080 );
 
 export const scene = new Scene();
-export const camera = new PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+export const camera = new PerspectiveCamera( 75, 1920 / 1080, 0.1, 1000 );
 
 //Camera controls for mouse movement
 export const controls = new OrbitControls( camera, renderer.domElement );
@@ -26,3 +26,9 @@ const directionalLight1 = getDirectionLight([0.6, 2, 1], [-0.35, 0.95, 0], "whit
 const directionalLight2 = getDirectionLight([-0.6, 0.8, 1], [0.35, 1.85, 0], 0xd400ff/*0xab35e6*/, 1)
 scene.add(directionalLight1, directionalLight2,
 	directionalLight1.target, directionalLight2.target);
+
+export const capturer = new CCapture({
+	framerate: 60,
+	format: 'gif',
+	workersPath: "/"
+})
