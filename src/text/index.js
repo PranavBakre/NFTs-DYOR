@@ -6,12 +6,12 @@ export function convertTextToTexture(text, style, domNode) {
     Object.entries(style).forEach(([key, value]) => {
         div.style[key] = value
     })
-    div.style.color = style.color ?? "white"
+    div.style.color = style.color ?? "white";
 
-    div.style.fontWeight = style.fontWeight ?? "Bold"
-    div.style.fontSize = style.fontSize ?? "21px"
-    div.style.fontFamily = style.fontFamily ?? "Gilroy-Regular"
-    
+    div.style.fontWeight = style.fontWeight ?? "Bold";
+    div.style.fontSize = style.fontSize ?? "21px";
+    div.style.fontFamily = style.fontFamily ?? "Gilroy-Regular";
+    div.style.visibility = "hidden";
     domNode.append(div)
     const canvas = document.createElement('canvas');
     
