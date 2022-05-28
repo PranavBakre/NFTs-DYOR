@@ -7,14 +7,17 @@ import { convertTextToTexture } from "./text";
 import { getMediaRecorder } from "./media-recorder";
 const domRoot = document.getElementById("root");
 
-
+//Setup Params
 const params = new URLSearchParams(location.search)
-params.forEach((value,key)=> {
+params.forEach((value, key) => {
 	const elem = document.getElementById(key);
-	if (elem!== undefined && elem!==null) {
+	if (elem !== undefined && elem !== null) {
 		elem.innerHTML = value
 	}
 })
+
+
+//Setup Video Recording
 const button = document.getElementById("export-button");
 const downloadLink = document.getElementById("download");
 const canvasStream = renderer.domElement.captureStream(60)
@@ -27,7 +30,7 @@ const mediaRecorder = getMediaRecorder(canvasStream, {
 		console.log(url)
 		downloadLink.href = url;
 		downloadLink.download = "file.webm"
-		downloadLink.style.display="block"
+		downloadLink.style.display = "block"
 		button.disabled = false;
 	}
 )
@@ -40,6 +43,47 @@ button.onclick = (event) => {
 
 }
 
+//Load Fonts before Canvas Renders text
+let titleFont = new FontFace("Gilroy-Medium", "url(https://fonts.cdnfonts.com/s/16219/Gilroy-Medium.woff)")
+let subtitleFont = new FontFace("Gilroy-Regular", "url(https://fonts.cdnfonts.com/s/16219/Gilroy-Regular.woff)")
+
+Promise.all([titleFont.load(), subtitleFont.load()]).then(fonts => {
+	console.log(fonts)
+	fonts.forEach(font => document.fonts.add(font));
+}).then(() => {
+
+	let { texture: canvasTexture, canvas: titleCanvas } = convertTextToTexture(params.get("title") ?? "Megha Singh", {
+		position: "absolute",
+		top: "0px",
+		padding: "5px",
+	}, domRoot)
+	let titleMaterial = new MeshBasicMaterial({ map: canvasTexture, transparent: true });
+	let titleGeometry = new PlaneBufferGeometry(titleCanvas.width / 400, titleCanvas.height / 400, 2, 2);
+	let titleMesh = new Mesh(titleGeometry, titleMaterial);
+	titleMesh.position.z = 0.202;
+	titleMesh.position.y = 0.9
+
+
+	let { texture: subtitleCanvasTexture, canvas: subtitleCanvas } = convertTextToTexture(params.get("subtitle") ?? "Member since Jan 2021", {
+		position: "absolute",
+		top: "1.5rem",
+		padding: "5px",
+		fontSize: "18px"
+	}, domRoot)
+
+	let subtitleMaterial = new MeshBasicMaterial({ map: subtitleCanvasTexture, transparent: true });
+	let subtitleGeometry = new PlaneBufferGeometry(subtitleCanvas.width / 500, subtitleCanvas.height / 450, 2, 2);
+	let subtitleMesh = new Mesh(subtitleGeometry, subtitleMaterial);
+	subtitleMesh.position.z = 0.201;
+	subtitleMesh.position.y = 0.85
+
+	scene.add(titleMesh, subtitleMesh)
+})
+
+
+
+
+//Setup window and frame
 let x = -0.4; let y = 0.8; let width = 0.8; let height = 1.25; let radius = 0.1
 const wall = getRoundedRectangle(5, 5, 0, -2, -2)
 const window = getRoundedRectangle(width, height, radius, x, y)
@@ -93,7 +137,7 @@ camera.position.y = 1.4;
 controls.update();
 const loader = new GLTFLoader();
 
-
+//Load Logo
 const textureLoader = new TextureLoader()
 textureLoader.load((params.get("logo") ?? "logo.png"), (texture) => {
 	let image = texture.image;
@@ -109,8 +153,8 @@ textureLoader.load((params.get("logo") ?? "logo.png"), (texture) => {
 	scene.add(mesh)
 })
 
-
-loader.load(params.get("model")??'avatar.glb', function (gltf) {
+//Load GLB Model
+loader.load(params.get("model") ?? 'avatar.glb', function (gltf) {
 	console.log(gltf)
 	scene.add(gltf.scene);
 
@@ -122,35 +166,8 @@ loader.load(params.get("model")??'avatar.glb', function (gltf) {
 });
 
 
-let { texture: canvasTexture, canvas: titleCanvas } = convertTextToTexture(params.get("title")??"Megha Singh", {
-	position: "absolute",
-	top: "0px",
-	padding: "5px",
-}, domRoot)
-let titleMaterial = new MeshBasicMaterial({ map: canvasTexture, transparent: true });
-let titleGeometry = new PlaneBufferGeometry(titleCanvas.width / 400, titleCanvas.height / 400, 2, 2);
-let titleMesh = new Mesh(titleGeometry, titleMaterial);
-titleMesh.position.z = 0.202;
-titleMesh.position.y = 0.9
 
-
-let { texture: subtitleCanvasTexture, canvas: subtitleCanvas } = convertTextToTexture(params.get("subtitle")??"Member since Jan 2021", {
-	position: "absolute",
-	top: "1.5rem",
-	padding: "5px",
-	fontSize: "18px"
-}, domRoot)
-
-let subtitleMaterial = new MeshBasicMaterial({ map: subtitleCanvasTexture, transparent: true });
-let subtitleGeometry = new PlaneBufferGeometry(subtitleCanvas.width / 500, subtitleCanvas.height / 450, 2, 2);
-let subtitleMesh = new Mesh(subtitleGeometry, subtitleMaterial);
-subtitleMesh.position.z = 0.201;
-subtitleMesh.position.y = 0.85
-
-scene.add(plane, frameBorder1Mesh, frameLight, frameMesh, frameBorder2Mesh, titleMesh, subtitleMesh)
-
-
-
+scene.add(plane, frameBorder1Mesh, frameLight, frameMesh, frameBorder2Mesh)
 
 function animate() {
 	requestAnimationFrame(animate);
