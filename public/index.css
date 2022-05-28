@@ -20,7 +20,8 @@ body {
 
 .content {
     color: white;
-    padding: 1rem
+    padding: 1rem;
+    word-break: break-all;
 }
 
 .button {
