@@ -1,20 +1,51 @@
 <html>
-    <head>
-        <meta name="author" content="Pranav Bakre">
-        <meta name="title" content="NFT Template">
 
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="theme-color" content="#000000" />
-        
-        <title>NFTs DYOR</title>
+<head>
+    <meta name="author" content="Pranav Bakre">
+    <meta name="title" content="NFT Template">
 
-        <link href="http://fonts.cdnfonts.com/css/gilroy-bold" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#000000" />
 
-    </head>
-    <body>
-        <noscript>
-            You need to enable javascript to run this app
-        </noscript>
-        <div id="root"></div>
-    </body>
+    <title>NFTs DYOR</title>
+    <link href="index.css" rel="stylesheet">
+    <link href="http://fonts.cdnfonts.com/css/gilroy-bold" rel="stylesheet">
+
+</head>
+
+<body>
+    <noscript>
+        You need to enable javascript to run this app
+    </noscript>
+    <div id="root" style="display:flex">
+        <canvas id="threejs-canvas" style="width: 100vh;height: 100vh;" width="1920" height="1920"></canvas>
+        <div
+            class="right-block">
+            <div class="information-block">
+                <div style="display: flex;justify-content: center;color: white">
+                    <h2>General Information</h2>
+                </div>
+                <div class="content">
+                    Model: <span id="model"></span>
+                </div>
+                <div class="content">
+                    Logo: <span id="logo"></span>
+                </div>
+                <div class="content">
+                    Title: <span id="title"></span>
+                </div>
+                <div class="content">
+                    Subtitle: <span id="subtitle"></span>
+                </div>
+                <div style="display:flex;justify-content: center;">
+                    <div>
+                        <button id="export-button" class="button">Export Video</button>
+                        <a id="download" class="button" style="display: none;">Download</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
 </html>

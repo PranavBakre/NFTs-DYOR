@@ -4,8 +4,7 @@ import { Scene, PerspectiveCamera, WebGLRenderer, AmbientLight } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { RectAreaLightUniformsLib } from 'three/examples/jsm/lights/RectAreaLightUniformsLib.js';
 import { getDirectionLight } from "lights";
-export const renderer = new WebGLRenderer({antialias: true});
-renderer.setSize( 1920,1920, false );
+export const renderer = new WebGLRenderer({antialias: true, canvas: document.getElementById("threejs-canvas")});
 
 export const scene = new Scene();
 export const camera = new PerspectiveCamera( 75, 1920 / 1920, 0.1, 1000 );

@@ -1,0 +1,45 @@
+@import url('http://fonts.cdnfonts.com/css/gilroy-bold');
+
+body {
+    margin: 0;
+}
+
+.right-block {
+    font-family: Gilroy-Regular;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1846c4;
+}
+
+.information-block {
+    width: 25vw;
+    height: 60vh;
+    border: 1px solid white;
+    padding: 3rem;
+}
+
+.content {
+    color: white;
+    padding: 1rem
+}
+
+.button {
+    border: none;
+    outline: none;
+    padding: 0.5rem;
+    border-radius: 5px;
+    background-color: white;
+    display: block;
+    margin-top: 0.5rem;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 200;
+    font-family: Gilroy-regular;
+    text-decoration: none;
+}
+
+.button:hover {
+    background-color: lightblue;
+}
