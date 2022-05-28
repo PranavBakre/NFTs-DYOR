@@ -23,10 +23,13 @@ export function getMediaRecorder(stream, options, callback) {
         const fullBlob = new Blob(blobs, {
             type: options.mimeType //"video/webm"
         })
-        fixWebmDuration(fullBlob, time).then (() =>{
-                callback();
-                time = undefined;
-            }
+        fixWebmDuration(fullBlob, time)
+        .then((fullBlob)=>{
+            time = undefined;
+            return fullBlob
+        })
+        .then (
+            callback
         )
     }
     return mediaRecorder
