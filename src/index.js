@@ -8,13 +8,11 @@ import { getMediaRecorder } from "./media-recorder";
 const domRoot = document.getElementById("root");
 
 //Setup Params
-const params = new URLSearchParams(location.search)
-params.forEach((value, key) => {
-	const elem = document.getElementById(key);
-	if (elem !== undefined && elem !== null) {
-		elem.innerHTML = value
-	}
-})
+const params = new URLSearchParams(location.search);
+let model = document.getElementById("model").innerHTML = params.get("model") ?? 'avatar.glb'
+let logo = document.getElementById("logo").innerHTML = params.get("logo") ?? "logo.png"
+let title = document.getElementById("title").innerHTML = params.get("title") ?? "Megha Singh"
+let subtitle = document.getElementById("subtitle").innerHTML = params.get("subtitle") ?? "Member since Jan 2021"
 
 
 //Setup Video Recording
@@ -52,7 +50,7 @@ Promise.all([titleFont.load(), subtitleFont.load()]).then(fonts => {
 	fonts.forEach(font => document.fonts.add(font));
 }).then(() => {
 
-	let { texture: canvasTexture, canvas: titleCanvas } = convertTextToTexture(params.get("title") ?? "Megha Singh", {
+	let { texture: canvasTexture, canvas: titleCanvas } = convertTextToTexture(title, {
 		position: "absolute",
 		top: "0px",
 		padding: "5px",
@@ -64,7 +62,7 @@ Promise.all([titleFont.load(), subtitleFont.load()]).then(fonts => {
 	titleMesh.position.y = 0.9
 
 
-	let { texture: subtitleCanvasTexture, canvas: subtitleCanvas } = convertTextToTexture(params.get("subtitle") ?? "Member since Jan 2021", {
+	let { texture: subtitleCanvasTexture, canvas: subtitleCanvas } = convertTextToTexture(subtitle, {
 		position: "absolute",
 		top: "1.5rem",
 		padding: "5px",
@@ -139,7 +137,7 @@ const loader = new GLTFLoader();
 
 //Load Logo
 const textureLoader = new TextureLoader()
-textureLoader.load((params.get("logo") ?? "logo.png"), (texture) => {
+textureLoader.load(logo, (texture) => {
 	let image = texture.image;
 	console.log(image.width)
 	let logoBase = new PlaneGeometry(image.width / 2500, image.height / 2500);
@@ -154,7 +152,7 @@ textureLoader.load((params.get("logo") ?? "logo.png"), (texture) => {
 })
 
 //Load GLB Model
-loader.load(params.get("model") ?? 'avatar.glb', function (gltf) {
+loader.load(model, function (gltf) {
 	console.log(gltf)
 	scene.add(gltf.scene);
 
